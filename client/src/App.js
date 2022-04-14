@@ -8,6 +8,8 @@ import StyledPopup from "./components/StyledPopup";
 
 function App() {
   const [pins, setPins] = useState([]);
+  const [currentPinId, setCurrentPinId] = useState(null);
+
   const [viewport, setViewport] = useState({
     latitude: 37,
     longitude: 127,
@@ -29,6 +31,12 @@ function App() {
     };
     getPins();
   }, []);
+
+  const handleMarkerClick = (id) => {
+    setCurrentPinId(id);
+  };
+
+  const cu = "jane";
 
   return (
     <div className="App">
@@ -53,12 +61,20 @@ function App() {
                   <FaMapPin
                     style={{
                       fontSize: viewport.zoom * 10,
-                      color: "seagreen",
+                      color: cu === pin.username ? "seagreen" : "red",
+                      cursor: "pointer",
                     }}
+                    onClick={() => handleMarkerClick(pin._id)}
                   />
                 }
               </Marker>
-              <StyledPopup pins={pins} />
+              {
+                <StyledPopup
+                  pins={pins}
+                  currentPinId={currentPinId}
+                  handleMarkerClick={handleMarkerClick}
+                />
+              }
             </>
           ))}
         </ReactMapGL>

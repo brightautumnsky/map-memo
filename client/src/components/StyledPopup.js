@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Popup } from "react-map-gl";
 import { FaStar } from "react-icons/fa";
+import { format } from "timeago.js";
 
 const PopupWrapper = styled.div`
   .info-box {
@@ -43,40 +44,43 @@ const PopupWrapper = styled.div`
   }
 `;
 
-const StyledPopup = ({ pins }) => {
+const StyledPopup = ({ pins, currentPinId, handleMarkerClick }) => {
   return (
     <PopupWrapper>
-      {pins &&
-        pins.map((pin, index) => (
-          <Popup
-            key={index}
-            latitude={pin.lat}
-            longitude={pin.long}
-            closeButton={true}
-            closeOnClick={false}
-            anchor="left"
-          >
-            <div className="info-box">
-              <label>장소</label>
-              <h4 className="place">{pin.title}</h4>
-              <label>후기</label>
-              <div className="review">
-                <p>{pin.desc}</p>
+      {pins.map(
+        (pin, index) =>
+          pin._id === currentPinId && (
+            <Popup
+              key={index}
+              latitude={pin.lat}
+              longitude={pin.long}
+              closeButton={true}
+              closeOnClick={false}
+              anchor="left"
+              onClose={() => handleMarkerClick()}
+            >
+              <div className="info-box">
+                <label>장소</label>
+                <h4 className="place">{pin.title}</h4>
+                <label>후기</label>
+                <div className="review">
+                  <p>{pin.desc}</p>
+                </div>
+                <label>별점</label>
+                <div className="stars">
+                  <FaStar />
+                  <FaStar />
+                  <FaStar />
+                </div>
+                <label>정보</label>
+                <div className="info">
+                  <span className="username">{pin.username}</span>
+                  <span className="date">{format(pin.createAt)}</span>
+                </div>
               </div>
-              <label>별점</label>
-              <div className="stars">
-                <FaStar />
-                <FaStar />
-                <FaStar />
-              </div>
-              <label>정보</label>
-              <div className="info">
-                <span className="username">{pin.username}</span>
-                <span className="date">2022.02.02</span>
-              </div>
-            </div>
-          </Popup>
-        ))}
+            </Popup>
+          )
+      )}
     </PopupWrapper>
   );
 };
