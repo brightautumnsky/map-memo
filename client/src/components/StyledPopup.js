@@ -100,7 +100,7 @@ const StyledPopup = ({
                 closeButton={true}
                 closeOnClick={false}
                 anchor="left"
-                onClose={() => handleMarkerClick()}
+                onClose={() => handleMarkerClick(null, pin.long, pin.lat)}
               >
                 <div className="info-box">
                   <label>장소</label>
