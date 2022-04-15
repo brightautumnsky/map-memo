@@ -13,6 +13,7 @@ function App() {
   const [title, setTitle] = useState(null);
   const [desc, setDesc] = useState(null);
   const [rating, setRating] = useState(0);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const [viewport, setViewport] = useState({
     latitude: 37,
@@ -48,7 +49,6 @@ function App() {
     });
   };
 
-  const cu = "jane";
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newPin = {
@@ -70,15 +70,21 @@ function App() {
     }
   };
 
+  const handleRegister = () => {};
+  const cu = "jane";
+
   return (
     <div className="App">
-      <Header title="Let's Memo Our Travle! 소중한 기록을 남겨보세요." />
       <div
         style={{
           width: "100%",
           height: "100vh",
         }}
       >
+        <Header
+          title="Let's Memo Our Travle! 소중한 기록을 남겨보세요."
+          currentUser={currentUser}
+        />
         <ReactMapGL
           {...viewport}
           mapboxApiAccessToken={tk}
@@ -100,7 +106,7 @@ function App() {
                   <FaMapPin
                     style={{
                       fontSize: viewport.zoom * 7,
-                      color: cu === pin.username ? "seagreen" : "red",
+                      color: cu === pin.username ? "#5584ac" : "red",
                       cursor: "pointer",
                     }}
                     onClick={() =>
